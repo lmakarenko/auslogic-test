@@ -1,0 +1,6 @@
+RewriteEngine On
+
+#RewriteCond $1 !^(index.php)$
+#RewriteRule ^(.*)$ /index.php
+
+RewriteRule ^files/(.*)$ /download.php?file=$1
