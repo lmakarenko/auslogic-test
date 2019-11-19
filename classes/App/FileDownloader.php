@@ -48,9 +48,10 @@ class FileDownloader
         $this->fileStorage = $fileStorage;
         $this->validateParams($params);
         $this->validateFileName($params['fileName']);
+        $this->validateInputFileName($params['inputFileName']);
         $this->fileName = $params['fileName'];
+        $this->inputFileName = $params['inputFileName'];
         $this->filePath = $this->fileStorage->getFilePath($this->fileName);
-        $this->inputFileName = isset($params['inputFileName']) ? $params['inputFileName'] : $this->fileName;
     }
 
     /**
@@ -64,6 +65,9 @@ class FileDownloader
         if(!isset($params['fileName'])) {
             throw new \Exception("Filename parameter is required");
         }
+        if(!isset($params['inputFileName'])) {
+            throw new \Exception("InputFilename parameter is required");
+        }
         return true;
     }
 
@@ -76,7 +80,15 @@ class FileDownloader
     protected function validateFileName($fileName)
     {
         if(!preg_match('/^([-\.\w]+)$/', $fileName)) {
-            throw new \Exception("Filename is not valid: {$params['fileName']}");
+            throw new \Exception("Filename is not valid: {$fileName}");
+        }
+        return true;
+    }
+
+    protected function validateInputFileName($inputFileName)
+    {
+        if(!preg_match('/^([-\.\w]+)\.exe$/', $inputFileName)) {
+            throw new \Exception("InputFilename is not valid: {$inputFileName}");
         }
         return true;
     }
